@@ -1,6 +1,7 @@
 package com.appName.utilities;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -27,6 +28,16 @@ public class ConfigurationReader {
 
 
     }
+
+    public static void writeToPropertiesFile(String key, String value) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream("configurations.properties")) {
+            properties.setProperty(key, value);
+            properties.store(fileOutputStream, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String getProperty(String keyword){
         return properties.getProperty(keyword);
 
