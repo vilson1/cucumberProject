@@ -3,6 +3,7 @@ package com.appName.step_definitions;
 import com.appName.pages.CreateAccountPage;
 import com.appName.pages.HomePage;
 import com.appName.utilities.BrowserUtils;
+import com.appName.utilities.ConfigurationReader;
 import com.appName.utilities.Driver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -29,9 +30,8 @@ public class CreateAccount_StepDefinition {
 
     @And("The user enter email")
     public void theUserEnterEmail() {
-        String email=BrowserUtils.getStringFromFaker("email");
-        createAccountPage.emailAdressInputField.sendKeys(email);
-        System.out.println(email);
+        ConfigurationReader.writeToPropertiesFile("email",BrowserUtils.getStringFromFaker("email"));
+        createAccountPage.emailAdressInputField.sendKeys(ConfigurationReader.getProperty("email"));
 
     }
 
@@ -59,11 +59,13 @@ public class CreateAccount_StepDefinition {
 
     @When("The user enter first name {string}")
     public void theUserEnterFirstName(String firstName) {
-        createAccountPage.firstNameInputField.sendKeys(firstName);
+        ConfigurationReader.writeToPropertiesFile("name",BrowserUtils.getStringFromFaker("firstName"));
+        createAccountPage.firstNameInputField.sendKeys(ConfigurationReader.getProperty("name"));
     }
 
     @And("The user enter last name {string}")
     public void theUserEnterLastName(String lastName) {
-        createAccountPage.lastNameInputField.sendKeys(lastName);
+        ConfigurationReader.writeToPropertiesFile("lastName",BrowserUtils.getStringFromFaker("lastName"));
+        createAccountPage.lastNameInputField.sendKeys(ConfigurationReader.getProperty("lastName"));
     }
 }

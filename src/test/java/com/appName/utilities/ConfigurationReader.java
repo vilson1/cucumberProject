@@ -30,7 +30,7 @@ public class ConfigurationReader {
     }
 
     public static void writeToPropertiesFile(String key, String value) {
-        try (FileOutputStream fileOutputStream = new FileOutputStream("configurations.properties")) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream("src/test/resources/configurations.properties")) {
             properties.setProperty(key, value);
             properties.store(fileOutputStream, null);
         } catch (IOException e) {

@@ -4,6 +4,7 @@ import com.appName.utilities.BrowserUtils;
 import com.appName.utilities.ConfigurationReader;
 import com.appName.utilities.Driver;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -12,6 +13,7 @@ public class HomePage extends BasePage  {
     public HomePage() {
         super();
     }
+    public String welcomeMessageXpath="(//span[.='Welcome, %s %s!'])[1]";
 
 
     @FindBy(xpath = "//header//a[.='Create an Account']")
@@ -28,6 +30,10 @@ public class HomePage extends BasePage  {
     public static WebElement womenSectionButton;
     @FindBy(xpath = "//a[@class='action skip contentarea']/..//span[@class='counter qty']")
     public static WebElement wish_list_Button;
+    @FindBy(id = "search")
+    public WebElement searBar;
+
+   // public WebElement welcomeMessage=Driver.getDriver().findElement(By.xpath(String.format(welcomeMessageXpath,ConfigurationReader.getProperty("name"),ConfigurationReader.getProperty("lastName"))));
 
 
     public void clickCreateAccountButton(){
