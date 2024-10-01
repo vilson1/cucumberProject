@@ -28,4 +28,25 @@ public class WomenSection_StepDefinition {
     public void theUserAddAnItemInCart() {
         womenPage.addItemToCart();
     }
+
+    @And("The user select the filter {string}")
+    public void theUserSelectTheFilter(String filterName) {
+        womenPage.selectFilter(filterName);
+    }
+
+    @Then("The user verifies that prices are in ascending order")
+    public void theUserVerifiesThatPricesAreInAscendingOrder() {
+        womenPage.checkThatItemsPriceAreInAscendingOrder();
+    }
+
+    @And("The user select the size filter")
+    public void theUserSelectTheSizeFilter() {
+        womenPage.clickSizeFilter();
+        womenPage.selectSizeFilter();
+    }
+
+    @Then("The user verifies that all items has size selected")
+    public void theUserVerifiesThatAllItemsHasSizeSelected() {
+        womenPage.checkSelectedSizes();
+    }
 }

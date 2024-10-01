@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "com/appName/step_definitions",
         dryRun = false,
-        tags = "@login2"
+        tags = "@size_filter"
 )
 
 public class Runner {

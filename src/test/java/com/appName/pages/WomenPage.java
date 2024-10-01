@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class WomenPage extends BasePage {
     public static  int PRODUCT_NUMBER;
     public static  int PRODUCT_NUMBER_ADDED_IN_WISH_LIST;
     public static Map<String,Boolean> SUCCESS_MESSAGE;
+    public static String SIZE;
 
     public static String ITEM_SIZE="//li[@class='item product product-item'][%s]//div[@class='swatch-option text']";
 
@@ -67,7 +69,37 @@ public class WomenPage extends BasePage {
     private List<WebElement> itemSelectedColor;
     @FindBy(xpath = "//li[@class='item product product-item']")
     private List<WebElement> itemsList;
+    @FindBy(xpath = "(//select[@id='sorter'])[1]")
+    private WebElement selectFilter;
+    @FindBy(xpath = "(//select[@id='sorter'])[1]/../a")
+    private WebElement sortingArrow;
+    @FindBy(xpath = "//span[contains(@id,'product-price')]//span[@class='price']")
+    private List<WebElement> itemsPriceList;
+    @FindBy(xpath = "//div[.='Size']/..")
+    private WebElement sizeFilter;
+    @FindBy(xpath = "//div[@class='swatch-option text ']")
+    private List<WebElement> sizesList;
+    @FindBy(xpath = "//li[@class='item product product-item']//div[@class='swatch-option text selected']")
+    private List<WebElement> selectedSizes;
 
+
+
+    public void checkSelectedSizes(){
+
+        for (WebElement eachSelectedSize : selectedSizes) {
+           Assert.assertEquals(eachSelectedSize.getAttribute("option-label"),SIZE);
+        }
+
+    }
+    public void clickSizeFilter(){
+        sizeFilter.click();
+    }
+    public void selectSizeFilter(){
+        Random random=new Random();
+        int sizeIndex=random.nextInt(sizesList.size());
+        SIZE=sizesList.get(sizeIndex).getAttribute("option-label");
+        sizesList.get(sizeIndex).click();
+    }
 
     public void addItemToCart(){
         Random random=new Random();
@@ -93,6 +125,40 @@ public class WomenPage extends BasePage {
         softAssertions.assertAll();
     }
 
+    public void selectFilter(String filterName){
+        Select select=new Select(selectFilter);
+        switch (filterName){
+            case "position":
+                select.selectByValue("position");
+                break;
+            case "product name":
+                select.selectByValue("name");
+                break;
+            case "price":
+                select.selectByValue("price");
+                break;
+        }
+        String sortingDirection=sortingArrow.getAttribute("title");
+        if (!sortingDirection.contains("Descending")){
+            sortingArrow.click();
+        }
+    }
+
+    public void checkThatItemsPriceAreInAscendingOrder(){
+        List<Double> prices=new ArrayList<>();
+        for (WebElement eachItem : itemsPriceList) {
+            prices.add(Double.parseDouble(eachItem.getText().substring(1)));
+        }
+        double minValue=prices.get(0);
+        for (int i = 0; i < prices.size(); i++) {
+            if (minValue>prices.get(i)){
+                Assert.fail("The filter doesn;t work properly!");
+            }
+            minValue=prices.get(i);
+        }
+
+
+    }
 
     public void hoverTheMouseOverWomenButton(){
         BrowserUtils.hover(HomePage.womenSectionButton);
