@@ -1,14 +1,14 @@
 package com.appName.pages;
 
 import com.appName.utilities.BrowserUtils;
+import com.appName.utilities.Driver;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WomenPage extends BasePage {
 
@@ -63,8 +63,35 @@ public class WomenPage extends BasePage {
     public static List<WebElement> productName;
     @FindBy(xpath = "//div[@class='toolbar toolbar-products' and following-sibling::div[@class='products wrapper grid products-grid']]//a[@title='Set Descending Direction']")
     public static WebElement buttonForDescendingOrder;
+    @FindBy(xpath = "//div[@class='swatch-option color selected']")
+    private List<WebElement> itemSelectedColor;
+    @FindBy(xpath = "//li[@class='item product product-item']")
+    private List<WebElement> itemsList;
 
 
+    public void addItemToCart(){
+        Random random=new Random();
+        int itemRandomIndex=random.nextInt(itemsList.size());
+        Actions actions=new Actions(Driver.getDriver());
+        actions.moveToElement(itemsList.get(itemRandomIndex)).perform();
+        addToCartButton.get(itemRandomIndex).click();
+    }
+    public void selectitemsColor(){
+        shoppingOptionsColor.click();
+        Random random=new Random();
+        int colorRandomIndex=random.nextInt(shoppingOptionsColorsList.size());
+        SELECTED_COLOR=shoppingOptionsColorsList.get(colorRandomIndex).getAttribute("option-label");
+        shoppingOptionsColorsList.get(colorRandomIndex).click();
+    }
+
+    public void checkItemsSelectedColors(){
+        SoftAssertions softAssertions = new SoftAssertions();
+        for (WebElement eachItem : itemSelectedColor) {
+            String selectedColor=eachItem.getAttribute("option-label");
+            softAssertions.assertThat(SELECTED_COLOR.equalsIgnoreCase(selectedColor));
+        }
+        softAssertions.assertAll();
+    }
 
 
     public void hoverTheMouseOverWomenButton(){

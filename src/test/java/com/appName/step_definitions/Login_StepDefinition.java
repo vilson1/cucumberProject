@@ -2,6 +2,7 @@ package com.appName.step_definitions;
 
 import com.appName.pages.HomePage;
 import com.appName.pages.LoginPage;
+import com.appName.utilities.BrowserUtils;
 import com.appName.utilities.ConfigurationReader;
 import com.appName.utilities.Driver;
 import io.cucumber.datatable.DataTable;
@@ -74,6 +75,7 @@ public class Login_StepDefinition {
     @Then("The user verifies that is logedin")
     public void theUserVerifiesThatIsLogedin() {
         HomePage homePage=new HomePage();
+        BrowserUtils.pause(5);
         Assert.assertTrue(Driver.getDriver().findElement(By.xpath(String.format(homePage.welcomeMessageXpath,ConfigurationReader.getProperty("name"),ConfigurationReader.getProperty("lastName")))).isDisplayed());
     }
 

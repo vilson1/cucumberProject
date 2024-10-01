@@ -6,6 +6,7 @@ import com.appName.utilities.Driver;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -33,8 +34,22 @@ public class HomePage extends BasePage  {
     @FindBy(id = "search")
     public WebElement searBar;
 
+    @FindBy(xpath = "//span[.='Women']/..")
+    public WebElement womenDropdown;
+    @FindBy(xpath = "//span[.='Tops']/..")
+    public WebElement womenTopsDropdown;
+    @FindBy(xpath = "//span[.='Jackets']/..")
+    public WebElement womenTopsJacketSection;
    // public WebElement welcomeMessage=Driver.getDriver().findElement(By.xpath(String.format(welcomeMessageXpath,ConfigurationReader.getProperty("name"),ConfigurationReader.getProperty("lastName"))));
 
+    public void clickJacketSectionInWomenTops(){
+        Actions actions=new Actions(Driver.getDriver());
+        actions.moveToElement(womenDropdown)
+                .moveToElement(womenTopsDropdown)
+                .click(womenTopsJacketSection)
+                .build()
+                .perform();
+    }
 
     public void clickCreateAccountButton(){
         clickElement(criateAccountButton);
